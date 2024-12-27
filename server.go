@@ -40,6 +40,17 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"path": path})
 	})
 
+	r.GET("/test", func(c *gin.Context) {
+		var request PathRequest
+		if err := c.BindJSON(&request); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "Hello World!"})
+			return
+		}
+
+		path := findPath(request.Start, request.End)
+		c.JSON(http.StatusOK, gin.H{"path": path})
+	})
+
 	r.Run(":8080") // Listen and serve on localhost:8080
 }
 
